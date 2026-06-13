@@ -1,0 +1,44 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="obj\Debug\net10.0\.NETCoreApp,Version=v10.0.AssemblyAttributes.cs" />
+    <Compile Include="obj\Debug\net10.0\ERP.Core.AssemblyInfo.cs" />
+    <Compile Include="obj\Debug\net10.0\ERP.Core.GlobalUsings.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="bin\Debug\net10.0\ERP.Core.deps.json" />
+    <Content Include="obj\Debug\net10.0\ERP.Core.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\ERP.Core.csproj.nuget.dgspec.json" />
+    <Content Include="obj\project.assets.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="bin\Debug\net10.0\ERP.Core.dll" />
+    <None Include="bin\Debug\net10.0\ERP.Core.pdb" />
+    <None Include="obj\Debug\net10.0\ERP.Core.AssemblyInfoInputs.cache" />
+    <None Include="obj\Debug\net10.0\ERP.Core.assets.cache" />
+    <None Include="obj\Debug\net10.0\ERP.Core.csproj.AssemblyReference.cache" />
+    <None Include="obj\Debug\net10.0\ERP.Core.csproj.BuildWithSkipAnalyzers" />
+    <None Include="obj\Debug\net10.0\ERP.Core.csproj.CoreCompileInputs.cache" />
+    <None Include="obj\Debug\net10.0\ERP.Core.dll" />
+    <None Include="obj\Debug\net10.0\ERP.Core.GeneratedMSBuildEditorConfig.editorconfig" />
+    <None Include="obj\Debug\net10.0\ERP.Core.pdb" />
+    <None Include="obj\Debug\net10.0\refint\ERP.Core.dll" />
+    <None Include="obj\Debug\net10.0\ref\ERP.Core.dll" />
+    <None Include="obj\ERP.Core.csproj.nuget.g.props" />
+    <None Include="obj\ERP.Core.csproj.nuget.g.targets" />
+    <None Include="obj\project.nuget.cache" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="10.0.9" />
+  </ItemGroup>
+
+</Project>

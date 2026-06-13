@@ -1,0 +1,165 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>ERP API Tester</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 30px;
+            background: #1e1e1e;
+            color: white;
+        }
+
+        input, select {
+            width: 300px;
+            padding: 8px;
+            margin: 5px 0;
+            display: block;
+            border-radius: 4px;
+            border: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: #378ADD;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 5px 5px 5px 0;
+        }
+
+            button:hover {
+                background: #2a6aad;
+            }
+
+        pre {
+            background: #2d2d2d;
+            padding: 15px;
+            border-radius: 4px;
+            margin-top: 15px;
+            overflow-x: auto;
+            max-height: 400px;
+        }
+
+        h3 {
+            color: #378ADD;
+            margin-top: 25px;
+        }
+
+        .section {
+            border: 1px solid #444;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h2>ERP API Tester</h2>
+
+    <div class="section">
+        <h3>1. Login</h3>
+        <input type="email" id="email" value="admin@erp.com" />
+        <input type="password" id="password" value="Admin@123" />
+        <button onclick="login()">Login</button>
+        <div id="token-display" style="color:#4ec9b0;font-size:12px;margin-top:5px"></div>
+    </div>
+
+    <div class="section">
+        <h3>2. Get All Employees</h3>
+        <button onclick="getEmployees()">Get Employees</button>
+    </div>
+
+    <div class="section">
+        <h3>3. Create Employee</h3>
+        <input type="text" id="firstName" placeholder="First Name" value="John" />
+        <input type="text" id="lastName" placeholder="Last Name" value="Doe" />
+        <input type="email" id="empEmail" placeholder="Email" value="john@erp.com" />
+        <input type="text" id="phone" placeholder="Phone" value="9876543210" />
+        <input type="date" id="doj" value="2024-01-01" />
+        <input type="number" id="deptId" placeholder="Department ID" value="1" />
+        <input type="number" id="desigId" placeholder="Designation ID" value="1" />
+        <button onclick="createEmployee()">Create Employee</button>
+    </div>
+
+    <pre id="result">Result will appear here...</pre>
+
+    <script>
+        let token = '';
+        const API = 'http://localhost:5267';
+
+        async function login() {
+            try {
+                const response = await fetch(`${API}/api/auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        email: document.getElementById('email').value,
+                        password: document.getElementById('password').value
+                    })
+                });
+                const data = await response.json();
+                if (data.token) {
+                    token = data.token;
+                    document.getElementById('token-display').textContent = '✅ Logged in as: ' + data.fullName + ' (' + data.role + ')';
+                    document.getElementById('result').textContent = 'Login successful! Token saved. Now click Get Employees.';
+                } else {
+                    document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+                }
+            } catch (err) {
+                document.getElementById('result').textContent = 'Error: ' + err.message;
+            }
+        }
+
+        async function getEmployees() {
+            if (!token) {
+                document.getElementById('result').textContent = 'ERROR: Please login first!';
+                return;
+            }
+            try {
+                const response = await fetch(`${API}/api/employees`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                document.getElementById('result').textContent = 'Error: ' + err.message;
+            }
+        }
+
+        async function createEmployee() {
+            if (!token) {
+                document.getElementById('result').textContent = 'ERROR: Please login first!';
+                return;
+            }
+            try {
+                const response = await fetch(`${API}/api/employees`, {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        firstName: document.getElementById('firstName').value,
+                        lastName: document.getElementById('lastName').value,
+                        email: document.getElementById('empEmail').value,
+                        phone: document.getElementById('phone').value,
+                        dateOfJoining: document.getElementById('doj').value,
+                        departmentId: parseInt(document.getElementById('deptId').value),
+                        designationId: parseInt(document.getElementById('desigId').value)
+                    })
+                });
+                const data = await response.json();
+                document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+            } catch (err) {
+                document.getElementById('result').textContent = 'Error: ' + err.message;
+            }
+        }
+    </script>
+</body>
+</html>

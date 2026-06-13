@@ -1,0 +1,95 @@
+﻿@using ERP.Core.DTOs
+@model IEnumerable<EmployeeDto>
+
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Employees</h4>
+        <p class="text-muted mb-0">Manage all employees</p>
+    </div>
+    <a href="/Employees/Create" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add Employee
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="p-3 border-bottom">
+            <input type="text" id="searchInput" class="form-control"
+                   placeholder="Search employees..." style="max-width:300px" />
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover mb-0" id="empTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Department</th>
+                        <th>Designation</th>
+                        <th>Joining Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="9" class="text-center py-4 text-muted">
+                                <i class="fas fa-users fa-2x mb-2 d-block"></i>
+                                No employees found. Add your first employee!
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var emp in Model)
+                        {
+                            <tr>
+                                <td><span class="badge bg-light text-dark">@emp.EmployeeCode</span></td>
+                                <td class="fw-500">@emp.FullName</td>
+                                <td>@emp.Email</td>
+                                <td>@emp.Phone</td>
+                                <td>@emp.Department</td>
+                                <td>@emp.Designation</td>
+                                <td>@emp.DateOfJoining.ToString("dd MMM yyyy")</td>
+                                <td>
+                                    <span class="badge @(emp.Status == "Active" ? "bg-success" : "bg-danger")">
+                                        @emp.Status
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="/Employees/Edit/@emp.Id"
+                                       class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/Employees/Details/@emp.Id"
+                                       class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function() {
+            const search = this.value.toLowerCase();
+            const rows = document.querySelectorAll('#empTable tbody tr');
+            rows.forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(search) ? '' : 'none';
+            });
+        });
+    </script>
+}

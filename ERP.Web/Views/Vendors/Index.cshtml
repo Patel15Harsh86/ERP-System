@@ -1,0 +1,113 @@
+﻿@using ERP.Core.Models
+@model IEnumerable<Vendor>
+
+@{
+    ViewData["Title"] = "Vendors";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Vendors</h4>
+        <p class="text-muted mb-0">Manage your suppliers</p>
+    </div>
+    <a href="/Vendors/Create" class="btn btn-primary">
+        <i class="fas fa-plus me-2"></i>Add Vendor
+    </a>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-primary mb-1"><i class="fas fa-truck fa-2x"></i></div>
+            <h4 class="fw-bold">@Model.Count()</h4>
+            <p class="text-muted mb-0">Total Vendors</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-success mb-1"><i class="fas fa-check-circle fa-2x"></i></div>
+            <h4 class="fw-bold">@Model.Count(v => !v.IsDeleted)</h4>
+            <p class="text-muted mb-0">Active Vendors</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-warning mb-1"><i class="fas fa-city fa-2x"></i></div>
+            <h4 class="fw-bold">@Model.Select(v => v.Address).Distinct().Count()</h4>
+            <p class="text-muted mb-0">Locations</p>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="p-3 border-bottom">
+            <input type="text" id="searchInput" class="form-control"
+                   placeholder="Search vendors..." style="max-width:300px" />
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover mb-0" id="vendorTable">
+                <thead class="table-light">
+                    <tr>
+                        <th>#</th>
+                        <th>Vendor Name</th>
+                        <th>Contact Person</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>GST Number</th>
+                        <th>Address</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="8" class="text-center py-4 text-muted">
+                                <i class="fas fa-truck fa-2x mb-2 d-block"></i>
+                                No vendors found. Add your first vendor!
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        int i = 1;
+                        @foreach (var v in Model)
+                        {
+                            <tr>
+                                <td>@i++</td>
+                                <td class="fw-500">@v.VendorName</td>
+                                <td>@v.ContactPerson</td>
+                                <td>@v.Email</td>
+                                <td>@v.Phone</td>
+                                <td>@v.GSTNumber</td>
+                                <td>@v.Address</td>
+                                <td>
+                                    <a href="/Vendors/Edit/@v.Id"
+                                       class="btn btn-sm btn-outline-primary me-1">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <a href="/Vendors/Details/@v.Id"
+                                       class="btn btn-sm btn-outline-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.getElementById('searchInput').addEventListener('keyup', function () {
+            const search = this.value.toLowerCase();
+            document.querySelectorAll('#vendorTable tbody tr').forEach(row => {
+                row.style.display = row.textContent.toLowerCase().includes(search) ? '' : 'none';
+            });
+        });
+    </script>
+}

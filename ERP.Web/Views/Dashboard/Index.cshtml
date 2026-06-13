@@ -1,0 +1,38 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-primary mb-2"><i class="fas fa-users fa-2x"></i></div>
+            <h3 class="fw-bold">24</h3>
+            <p class="text-muted mb-0">Total Employees</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-success mb-2"><i class="fas fa-boxes fa-2x"></i></div>
+            <h3 class="fw-bold">156</h3>
+            <p class="text-muted mb-0">Products</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-warning mb-2"><i class="fas fa-shopping-cart fa-2x"></i></div>
+            <h3 class="fw-bold">8</h3>
+            <p class="text-muted mb-0">Pending Orders</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-danger mb-2"><i class="fas fa-rupee-sign fa-2x"></i></div>
+            <h3 class="fw-bold">₹4.2L</h3>
+            <p class="text-muted mb-0">Monthly Sales</p>
+        </div>
+    </div>
+</div>
+<div class="card border-0 shadow-sm p-4">
+    <h5 class="fw-bold mb-3">Welcome to ERP System</h5>
+    <p class="text-muted">You are logged in as <strong>@User.Identity?.Name</strong></p>
+    <p class="text-muted">Use the sidebar to navigate between modules.</p>
+</div>

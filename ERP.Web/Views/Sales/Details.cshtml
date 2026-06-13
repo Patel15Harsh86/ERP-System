@@ -1,0 +1,97 @@
+﻿@using ERP.Core.Models
+@model SalesOrder
+
+@{
+    ViewData["Title"] = "Order Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Order Details</h4>
+        <p class="text-muted mb-0">@Model.OrderNumber</p>
+    </div>
+    <a href="/Sales" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to List
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-body p-4">
+        <div class="row g-3">
+            <div class="col-md-3">
+                <p class="text-muted mb-1">Order Number</p>
+                <h6 class="fw-bold">@Model.OrderNumber</h6>
+            </div>
+            <div class="col-md-3">
+                <p class="text-muted mb-1">Customer</p>
+                <h6 class="fw-bold">@Model.Customer?.CustomerName</h6>
+            </div>
+            <div class="col-md-3">
+                <p class="text-muted mb-1">Order Date</p>
+                <h6 class="fw-bold">@Model.OrderDate.ToString("dd MMM yyyy")</h6>
+            </div>
+            <div class="col-md-3">
+                <p class="text-muted mb-1">Status</p>
+                <span class="badge @(Model.Status == "Pending" ? "bg-warning text-dark" : "bg-success")">
+                    @Model.Status
+                </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+    <div class="card-header bg-white fw-bold">Order Items</div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>#</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Unit Price</th>
+                    <th>Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                }
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>@i++</td>
+                        <td>@item.Product?.ProductName</td>
+                        <td>@item.Quantity</td>
+                        <td>₹@item.UnitPrice.ToString("N2")</td>
+                        <td>₹@item.Amount.ToString("N2")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        <div class="row">
+            <div class="col-md-8"></div>
+            <div class="col-md-4">
+                <table class="table table-sm">
+                    <tr>
+                        <td>Sub Total:</td>
+                        <td class="text-end fw-bold">₹@Model.SubTotal.ToString("N2")</td>
+                    </tr>
+                    <tr>
+                        <td>Tax (18%):</td>
+                        <td class="text-end">₹@Model.TaxAmount.ToString("N2")</td>
+                    </tr>
+                    <tr class="table-primary">
+                        <td class="fw-bold">Total:</td>
+                        <td class="text-end fw-bold">₹@Model.TotalAmount.ToString("N2")</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
