@@ -20,6 +20,8 @@ namespace ERP.Infrastructure.Data
         public DbSet<SalesOrder> SalesOrders { get; set; }
         public DbSet<SalesOrderItem> SalesOrderItems { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<SalaryStructure> SalaryStructures { get; set; }
+        public DbSet<PayrollRun> PayrollRuns { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

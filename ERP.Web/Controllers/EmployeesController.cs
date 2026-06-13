@@ -52,6 +52,13 @@ namespace ERP.Web.Controllers
             return View(emp);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, CreateEmployeeDto dto)
+        {
+            await _service.UpdateAsync(id, dto);
+            return RedirectToAction("Index");
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             ViewData["Title"] = "Employee Details";

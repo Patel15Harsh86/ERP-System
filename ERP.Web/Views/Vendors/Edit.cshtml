@@ -1,11 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Add Vendor";
+﻿@using ERP.Core.Models
+@model Vendor
+
+@{
+    ViewData["Title"] = "Edit Vendor";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h4 class="fw-bold mb-1">Add Vendor</h4>
-        <p class="text-muted mb-0">Fill in the vendor details</p>
+        <h4 class="fw-bold mb-1">Edit Vendor</h4>
+        <p class="text-muted mb-0">@Model.VendorName</p>
     </div>
     <a asp-controller="Vendors" asp-action="Index" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left me-2"></i>Back to List
@@ -14,43 +17,47 @@
 
 <div class="card border-0 shadow-sm">
     <div class="card-body p-4">
-        <form method="post" action="/Vendors/Create">
+        <form method="post" action="/Vendors/Edit">
+            <input type="hidden" name="Id" value="@Model.Id" />
+            <input type="hidden" name="CreatedAt" value="@Model.CreatedAt" />
+            <input type="hidden" name="CreatedBy" value="@Model.CreatedBy" />
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label fw-500">Vendor Name</label>
                     <input type="text" name="VendorName" class="form-control"
-                           placeholder="Enter vendor name" required />
+                           value="@Model.VendorName" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Contact Person</label>
                     <input type="text" name="ContactPerson" class="form-control"
-                           placeholder="Enter contact person name" required />
+                           value="@Model.ContactPerson" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Email</label>
                     <input type="email" name="Email" class="form-control"
-                           placeholder="Enter email" required />
+                           value="@Model.Email" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Phone</label>
                     <input type="text" name="Phone" class="form-control"
-                           placeholder="Enter phone number" required />
+                           value="@Model.Phone" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">GST Number</label>
                     <input type="text" name="GSTNumber" class="form-control"
-                           placeholder="Enter GST number" />
+                           value="@Model.GSTNumber" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Address</label>
                     <input type="text" name="Address" class="form-control"
-                           placeholder="Enter address" />
+                           value="@Model.Address" />
                 </div>
                 <div class="col-12 mt-2">
                     <button type="submit" class="btn btn-primary px-4">
-                        <i class="fas fa-save me-2"></i>Save Vendor
+                        <i class="fas fa-save me-2"></i>Update Vendor
                     </button>
-                    <a asp-controller="Vendors" asp-action="Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+                    <a asp-controller="Vendors" asp-action="Index"
+                       class="btn btn-outline-secondary ms-2">Cancel</a>
                 </div>
             </div>
         </form>

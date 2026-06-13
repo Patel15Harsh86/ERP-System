@@ -1,0 +1,113 @@
+﻿@using ERP.Core.Models
+@model IEnumerable<PayrollRun>
+
+@{
+    ViewData["Title"] = "Payroll";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Payroll</h4>
+        <p class="text-muted mb-0">Manage employee payroll</p>
+    </div>
+    <div>
+        <a href="/Payroll/SalaryStructure" class="btn btn-outline-primary me-2">
+            <i class="fas fa-cog me-2"></i>Salary Structure
+        </a>
+        <a href="/Payroll/ProcessPayroll" class="btn btn-primary">
+            <i class="fas fa-play me-2"></i>Process Payroll
+        </a>
+    </div>
+</div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-primary mb-1"><i class="fas fa-money-check-alt fa-2x"></i></div>
+            <h4 class="fw-bold">@Model.Count()</h4>
+            <p class="text-muted mb-0">Total Payslips</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-success mb-1"><i class="fas fa-rupee-sign fa-2x"></i></div>
+            <h4 class="fw-bold">₹@Model.Sum(p => p.NetSalary).ToString("N0")</h4>
+            <p class="text-muted mb-0">Total Net Salary</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-warning mb-1"><i class="fas fa-users fa-2x"></i></div>
+            <h4 class="fw-bold">@Model.Select(p => p.EmployeeId).Distinct().Count()</h4>
+            <p class="text-muted mb-0">Employees Paid</p>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3 text-center">
+            <div class="text-danger mb-1"><i class="fas fa-minus-circle fa-2x"></i></div>
+            <h4 class="fw-bold">₹@Model.Sum(p => p.PFDeduction + p.TaxDeduction).ToString("N0")</h4>
+            <p class="text-muted mb-0">Total Deductions</p>
+        </div>
+    </div>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th>Employee</th>
+                        <th>Month</th>
+                        <th>Basic</th>
+                        <th>HRA</th>
+                        <th>Allowances</th>
+                        <th>Gross</th>
+                        <th>PF</th>
+                        <th>Tax</th>
+                        <th>Net Salary</th>
+                        <th>Status</th>
+                        <th>Payslip</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="11" class="text-center py-4 text-muted">
+                                <i class="fas fa-money-check-alt fa-2x mb-2 d-block"></i>
+                                No payroll processed yet!
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var p in Model)
+                        {
+                            <tr>
+                                <td>@p.Employee?.FirstName @p.Employee?.LastName</td>
+                                <td>@p.MonthName</td>
+                                <td>₹@p.BasicSalary.ToString("N0")</td>
+                                <td>₹@p.HRA.ToString("N0")</td>
+                                <td>₹@p.Allowances.ToString("N0")</td>
+                                <td>₹@p.GrossSalary.ToString("N0")</td>
+                                <td class="text-danger">-₹@p.PFDeduction.ToString("N0")</td>
+                                <td class="text-danger">-₹@p.TaxDeduction.ToString("N0")</td>
+                                <td class="fw-bold text-success">₹@p.NetSalary.ToString("N0")</td>
+                                <td>
+                                    <span class="badge bg-success">@p.Status</span>
+                                </td>
+                                <td>
+                                    <a href="/Payroll/Payslip/@p.Id"
+                                       class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-file-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

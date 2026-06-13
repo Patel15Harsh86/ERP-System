@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -155,10 +156,10 @@
 
         <div class="nav-label">Finance</div>
         <nav class="nav flex-column">
-            <a class="nav-link" href="#">
+            <a class="nav-link" asp-controller="Accounts" asp-action="Index">
                 <i class="fas fa-rupee-sign"></i> Accounts
             </a>
-            <a class="nav-link" href="#">
+            <a class="nav-link" asp-controller="Payroll" asp-action="Index">
                 <i class="fas fa-money-check-alt"></i> Payroll
             </a>
         </nav>

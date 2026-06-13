@@ -1,11 +1,14 @@
-﻿@{
-    ViewData["Title"] = "Add Product";
+﻿@using ERP.Core.Models
+@model Product
+
+@{
+    ViewData["Title"] = "Edit Product";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <h4 class="fw-bold mb-1">Add Product</h4>
-        <p class="text-muted mb-0">Fill in the product details</p>
+        <h4 class="fw-bold mb-1">Edit Product</h4>
+        <p class="text-muted mb-0">@Model.ProductCode</p>
     </div>
     <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary">
         <i class="fas fa-arrow-left me-2"></i>Back to List
@@ -14,55 +17,54 @@
 
 <div class="card border-0 shadow-sm">
     <div class="card-body p-4">
-        <form method="post" action="/Products/Create">
+        <form method="post" action="/Products/Edit/@Model.Id">
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label fw-500">Product Name</label>
                     <input type="text" name="ProductName" class="form-control"
-                           placeholder="Enter product name" required />
+                           value="@Model.ProductName" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Category</label>
                     <input type="text" name="Category" class="form-control"
-                           placeholder="e.g. Electronics, Stationery" />
+                           value="@Model.Category" />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Unit</label>
                     <select name="Unit" class="form-select" required>
-                        <option value="">-- Select Unit --</option>
-                        <option value="PCS">PCS (Pieces)</option>
-                        <option value="KG">KG (Kilogram)</option>
-                        <option value="LTR">LTR (Litre)</option>
-                        <option value="MTR">MTR (Meter)</option>
+                        <option value="PCS">PCS</option>
+                        <option value="KG">KG</option>
+                        <option value="LTR">LTR</option>
+                        <option value="MTR">MTR</option>
                         <option value="BOX">BOX</option>
-                        <option value="SET">SET</option>
                     </select>
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Reorder Level</label>
                     <input type="number" name="ReorderLevel" class="form-control"
-                           placeholder="Minimum stock level" value="10" required />
+                           value="@Model.ReorderLevel" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Cost Price (₹)</label>
                     <input type="number" name="CostPrice" class="form-control"
-                           placeholder="0.00" step="0.01" required />
+                           value="@Model.CostPrice" step="0.01" required />
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-500">Sale Price (₹)</label>
                     <input type="number" name="SalePrice" class="form-control"
-                           placeholder="0.00" step="0.01" required />
+                           value="@Model.SalePrice" step="0.01" required />
                 </div>
                 <div class="col-12">
                     <label class="form-label fw-500">Description</label>
-                    <textarea name="Description" class="form-control" rows="3"
-                              placeholder="Product description (optional)"></textarea>
+                    <textarea name="Description" class="form-control"
+                              rows="3">@Model.Description</textarea>
                 </div>
                 <div class="col-12 mt-2">
                     <button type="submit" class="btn btn-primary px-4">
-                        <i class="fas fa-save me-2"></i>Save Product
+                        <i class="fas fa-save me-2"></i>Update Product
                     </button>
-                    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary ms-2">Cancel</a>
+                    <a asp-controller="Products" asp-action="Index"
+                       class="btn btn-outline-secondary ms-2">Cancel</a>
                 </div>
             </div>
         </form>

@@ -50,14 +50,13 @@ namespace ERP.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> StockIn(int productId, int quantity, string reference, string? notes)
+        public async Task<IActionResult> StockIn(int productId, int quantity,
+            string reference, string? notes)
         {
             var product = await _context.Products.FindAsync(productId);
             if (product == null) return NotFound();
-
             product.CurrentStock += quantity;
             await _context.SaveChangesAsync();
-
             _context.StockMovements.Add(new StockMovement
             {
                 ProductId = productId,
@@ -68,6 +67,31 @@ namespace ERP.Web.Controllers
                 MovementDate = DateTime.UtcNow,
                 CreatedBy = User.Identity?.Name ?? "System"
             });
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            ViewData["Title"] = "Edit Product";
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+            return View(product);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, Product model)
+        {
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+            product.ProductName = model.ProductName;
+            product.Category = model.Category;
+            product.Unit = model.Unit;
+            product.CostPrice = model.CostPrice;
+            product.SalePrice = model.SalePrice;
+            product.ReorderLevel = model.ReorderLevel;
+            product.Description = model.Description;
+            product.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }

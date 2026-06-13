@@ -1,0 +1,113 @@
+﻿@using ERP.Core.Models
+@model IEnumerable<SalaryStructure>
+
+@{
+    ViewData["Title"] = "Salary Structure";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Salary Structure</h4>
+        <p class="text-muted mb-0">Set salary for each employee</p>
+    </div>
+    <a href="/Payroll" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Payroll
+    </a>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white fw-bold">Add / Update Salary</div>
+            <div class="card-body p-4">
+                <form method="post" action="/Payroll/SaveSalary">
+                    <div class="mb-3">
+                        <label class="form-label fw-500">Employee</label>
+                        <select name="EmployeeId" class="form-select" required>
+                            <option value="">-- Select Employee --</option>
+                            @foreach (var emp in ViewBag.Employees)
+                            {
+                                <option value="@emp.Id">@emp.FirstName @emp.LastName</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-500">Basic Salary (₹)</label>
+                        <input type="number" name="BasicSalary" class="form-control"
+                               placeholder="0" step="0.01" required />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-500">HRA (₹)</label>
+                        <input type="number" name="HRA" class="form-control"
+                               placeholder="0" step="0.01" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-500">Allowances (₹)</label>
+                        <input type="number" name="Allowances" class="form-control"
+                               placeholder="0" step="0.01" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-500">PF Deduction (₹)</label>
+                        <input type="number" name="PFDeduction" class="form-control"
+                               placeholder="0" step="0.01" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-500">Tax Deduction (₹)</label>
+                        <input type="number" name="TaxDeduction" class="form-control"
+                               placeholder="0" step="0.01" />
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-500">Other Deductions (₹)</label>
+                        <input type="number" name="OtherDeductions" class="form-control"
+                               placeholder="0" step="0.01" />
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">
+                        <i class="fas fa-save me-2"></i>Save Salary
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-7">
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white fw-bold">Current Salary Structures</div>
+            <div class="card-body p-0">
+                <table class="table table-hover mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Employee</th>
+                            <th>Basic</th>
+                            <th>HRA</th>
+                            <th>Gross</th>
+                            <th>Net</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center py-3 text-muted">
+                                    No salary structures yet
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var s in Model)
+                            {
+                                <tr>
+                                    <td>@s.Employee?.FirstName @s.Employee?.LastName</td>
+                                    <td>₹@s.BasicSalary.ToString("N0")</td>
+                                    <td>₹@s.HRA.ToString("N0")</td>
+                                    <td>₹@s.GrossSalary.ToString("N0")</td>
+                                    <td class="fw-bold text-success">₹@s.NetSalary.ToString("N0")</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

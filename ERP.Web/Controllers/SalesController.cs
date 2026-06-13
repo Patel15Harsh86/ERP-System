@@ -119,5 +119,19 @@ namespace ERP.Web.Controllers
                 .ToListAsync();
             return View(invoices);
         }
+
+        public async Task<IActionResult> InvoiceDetails(int id)
+        {
+            ViewData["Title"] = "Invoice Details";
+            var invoice = await _context.Invoices
+                .Include(i => i.SalesOrder)
+                .ThenInclude(o => o.Customer)
+                .Include(i => i.SalesOrder)
+                .ThenInclude(o => o.Items)
+                .ThenInclude(item => item.Product)
+                .FirstOrDefaultAsync(i => i.Id == id);
+            if (invoice == null) return NotFound();
+            return View(invoice);
+        }
     }
 }

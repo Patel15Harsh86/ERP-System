@@ -3,7 +3,6 @@ using ERP.Core.Models;
 using ERP.Core.Services;
 using ERP.Infrastructure.Data;
 using ERP.Infrastructure.Repositories;
-using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,18 +24,16 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 // Cookie Authentication
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-        options.ExpireTimeSpan = TimeSpan.FromHours(8);
-    });
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = "/Account/Login";
+    options.LogoutPath = "/Account/Logout";
+    options.ExpireTimeSpan = TimeSpan.FromHours(8);
+});
 
 // Repositories & Services
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
@@ -56,5 +53,9 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Account}/{action=Login}/{id?}");
+
+app.MapControllerRoute(
+    name: "catchall",
+    pattern: "{controller}/{action}/{id?}");
 
 app.Run();

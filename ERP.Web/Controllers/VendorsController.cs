@@ -32,6 +32,7 @@ namespace ERP.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(Vendor model)
         {
+            model.CreatedBy = User.Identity?.Name ?? "System";
             _context.Vendors.Add(model);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
@@ -54,9 +55,17 @@ namespace ERP.Web.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(Vendor model)
+        public async Task<IActionResult> Edit(int id, Vendor model)
         {
-            _context.Vendors.Update(model);
+            var vendor = await _context.Vendors.FindAsync(id);
+            if (vendor == null) return NotFound();
+            vendor.VendorName = model.VendorName;
+            vendor.ContactPerson = model.ContactPerson;
+            vendor.Email = model.Email;
+            vendor.Phone = model.Phone;
+            vendor.GSTNumber = model.GSTNumber;
+            vendor.Address = model.Address;
+            vendor.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
