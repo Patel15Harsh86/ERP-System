@@ -66,5 +66,12 @@ namespace ERP.Web.Controllers
             if (emp == null) return NotFound();
             return View(emp);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.DeleteAsync(id);
+            return RedirectToAction("Index");
+        }
     }
 }

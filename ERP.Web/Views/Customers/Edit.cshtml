@@ -1,0 +1,67 @@
+﻿@using ERP.Core.Models
+@model Customer
+
+@{
+    ViewData["Title"] = "Edit Customer";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Edit Customer</h4>
+        <p class="text-muted mb-0">@Model.CustomerName</p>
+    </div>
+    <a asp-controller="Customers" asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to List
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        <form method="post" action="/Customers/Edit/@Model.Id">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-500">Customer Name</label>
+                    <input type="text" name="CustomerName" class="form-control"
+                           value="@Model.CustomerName" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-500">Contact Person</label>
+                    <input type="text" name="ContactPerson" class="form-control"
+                           value="@Model.ContactPerson" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-500">Email</label>
+                    <input type="email" name="Email" class="form-control"
+                           value="@Model.Email" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-500">Phone</label>
+                    <input type="text" name="Phone" class="form-control"
+                           value="@Model.Phone" required />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-500">GST Number</label>
+                    <input type="text" name="GSTNumber" class="form-control"
+                           value="@Model.GSTNumber" />
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-500">Credit Limit (₹)</label>
+                    <input type="number" name="CreditLimit" class="form-control"
+                           value="@Model.CreditLimit" step="0.01" />
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-500">Address</label>
+                    <input type="text" name="Address" class="form-control"
+                           value="@Model.Address" />
+                </div>
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="fas fa-save me-2"></i>Update Customer
+                    </button>
+                    <a asp-controller="Customers" asp-action="Index"
+                       class="btn btn-outline-secondary ms-2">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -116,7 +116,7 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <div class="sidebar-brand">
-            <h5><i class="fas fa-building me-2"></i>ERP System</h5>
+            <h5><i class="fas fa-building me-2"></i>SmartERP</h5>
             <p>Enterprise Resource Planning</p>
         </div>
 
@@ -142,10 +142,15 @@
             <a class="nav-link" asp-controller="Vendors" asp-action="Index">
                 <i class="fas fa-truck"></i> Vendors
             </a>
+            <a class="nav-link" asp-controller="Purchase" asp-action="Index">
+                <i class="fas fa-file-purchase"></i> Purchase Orders
+            </a>
         </nav>
-
         <div class="nav-label">Sales</div>
         <nav class="nav flex-column">
+            <a class="nav-link" asp-controller="Customers" asp-action="Index">
+                <i class="fas fa-user-tie"></i> Customers
+            </a>
             <a class="nav-link" asp-controller="Sales" asp-action="Index">
                 <i class="fas fa-shopping-cart"></i> Sales Orders
             </a>

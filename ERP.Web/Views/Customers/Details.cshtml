@@ -1,0 +1,60 @@
+﻿@using ERP.Core.Models
+@model Customer
+
+@{
+    ViewData["Title"] = "Customer Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Customer Details</h4>
+        <p class="text-muted mb-0">@Model.CustomerName</p>
+    </div>
+    <a asp-controller="Customers" asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to List
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <p class="text-muted mb-1">Customer Name</p>
+                <h6 class="fw-bold">@Model.CustomerName</h6>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted mb-1">Contact Person</p>
+                <h6 class="fw-bold">@Model.ContactPerson</h6>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted mb-1">Email</p>
+                <h6 class="fw-bold">@Model.Email</h6>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted mb-1">Phone</p>
+                <h6 class="fw-bold">@Model.Phone</h6>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted mb-1">GST Number</p>
+                <h6 class="fw-bold">@Model.GSTNumber</h6>
+            </div>
+            <div class="col-md-6">
+                <p class="text-muted mb-1">Credit Limit</p>
+                <h6 class="fw-bold">₹@Model.CreditLimit.ToString("N0")</h6>
+            </div>
+            <div class="col-12">
+                <p class="text-muted mb-1">Address</p>
+                <h6 class="fw-bold">@Model.Address</h6>
+            </div>
+        </div>
+        <div class="mt-4">
+            <a href="/Customers/Edit/@Model.Id" class="btn btn-primary me-2">
+                <i class="fas fa-edit me-2"></i>Edit Customer
+            </a>
+            <a asp-controller="Customers" asp-action="Index"
+               class="btn btn-outline-secondary">
+                <i class="fas fa-arrow-left me-2"></i>Back to List
+            </a>
+        </div>
+    </div>
+</div>

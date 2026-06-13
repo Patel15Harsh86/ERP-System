@@ -69,9 +69,16 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <a href="/Employees/Details/@emp.Id"
-                                       class="btn btn-sm btn-outline-info">
+                                       class="btn btn-sm btn-outline-info me-1">
                                         <i class="fas fa-eye"></i>
                                     </a>
+                                    <form method="post" action="/Employees/Delete/@emp.Id"
+                                          style="display:inline"
+                                          onsubmit="return confirm('Delete this employee?')">
+                                        <button type="submit" class="btn btn-sm btn-outline-danger">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         }
