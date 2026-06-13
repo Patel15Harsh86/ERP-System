@@ -1,38 +1,226 @@
 ﻿@{
     ViewData["Title"] = "Dashboard";
 }
+
+<!-- KPI Cards Row 1 -->
 <div class="row g-3 mb-4">
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center">
-            <div class="text-primary mb-2"><i class="fas fa-users fa-2x"></i></div>
-            <h3 class="fw-bold">24</h3>
-            <p class="text-muted mb-0">Total Employees</p>
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Total Employees</p>
+                    <h3 class="fw-bold mb-0">@ViewBag.TotalEmployees</h3>
+                </div>
+                <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-users text-primary fa-lg"></i>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center">
-            <div class="text-success mb-2"><i class="fas fa-boxes fa-2x"></i></div>
-            <h3 class="fw-bold">156</h3>
-            <p class="text-muted mb-0">Products</p>
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Total Products</p>
+                    <h3 class="fw-bold mb-0">@ViewBag.TotalProducts</h3>
+                    <small class="text-danger">@ViewBag.LowStockProducts low stock</small>
+                </div>
+                <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-boxes text-success fa-lg"></i>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center">
-            <div class="text-warning mb-2"><i class="fas fa-shopping-cart fa-2x"></i></div>
-            <h3 class="fw-bold">8</h3>
-            <p class="text-muted mb-0">Pending Orders</p>
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Pending Orders</p>
+                    <h3 class="fw-bold mb-0">@ViewBag.PendingOrders</h3>
+                    <small class="text-warning">@ViewBag.UnpaidInvoices unpaid invoices</small>
+                </div>
+                <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-shopping-cart text-warning fa-lg"></i>
+                </div>
+            </div>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="card border-0 shadow-sm p-3 text-center">
-            <div class="text-danger mb-2"><i class="fas fa-rupee-sign fa-2x"></i></div>
-            <h3 class="fw-bold">₹4.2L</h3>
-            <p class="text-muted mb-0">Monthly Sales</p>
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Total Sales</p>
+                    <h3 class="fw-bold mb-0">₹@String.Format("{0:N0}", ViewBag.TotalSales)</h3>
+                    <small class="text-muted">All invoices</small>
+                </div>
+                <div class="bg-danger bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-rupee-sign text-danger fa-lg"></i>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-<div class="card border-0 shadow-sm p-4">
-    <h5 class="fw-bold mb-3">Welcome to ERP System</h5>
-    <p class="text-muted">You are logged in as <strong>@User.Identity?.Name</strong></p>
-    <p class="text-muted">Use the sidebar to navigate between modules.</p>
+
+<!-- KPI Cards Row 2 -->
+<div class="row g-3 mb-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Total Vendors</p>
+                    <h3 class="fw-bold mb-0">@ViewBag.TotalVendors</h3>
+                </div>
+                <div class="bg-info bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-truck text-info fa-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Total Customers</p>
+                    <h3 class="fw-bold mb-0">@ViewBag.TotalCustomers</h3>
+                </div>
+                <div class="bg-success bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-user-tie text-success fa-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Stock Value</p>
+                    <h3 class="fw-bold mb-0">₹@String.Format("{0:N0}", ViewBag.StockValue)</h3>
+                </div>
+                <div class="bg-primary bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-warehouse text-primary fa-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <p class="text-muted mb-1 small">Total Payroll</p>
+                    <h3 class="fw-bold mb-0">₹@String.Format("{0:N0}", ViewBag.TotalPayroll)</h3>
+                </div>
+                <div class="bg-warning bg-opacity-10 rounded-circle p-3">
+                    <i class="fas fa-money-check-alt text-warning fa-lg"></i>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<!-- Charts & Recent Orders -->
+<div class="row g-4">
+    <div class="col-md-8">
+        <div class="card border-0 shadow-sm p-4">
+            <h6 class="fw-bold mb-3">Monthly Sales</h6>
+            <canvas id="salesChart" height="100"></canvas>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card border-0 shadow-sm p-4">
+            <h6 class="fw-bold mb-3">Quick Stats</h6>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted">Employees</span>
+                <span class="fw-bold">@ViewBag.TotalEmployees</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted">Products</span>
+                <span class="fw-bold">@ViewBag.TotalProducts</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted">Vendors</span>
+                <span class="fw-bold">@ViewBag.TotalVendors</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted">Customers</span>
+                <span class="fw-bold">@ViewBag.TotalCustomers</span>
+            </div>
+            <div class="d-flex justify-content-between py-2 border-bottom">
+                <span class="text-muted">Pending Orders</span>
+                <span class="fw-bold text-warning">@ViewBag.PendingOrders</span>
+            </div>
+            <div class="d-flex justify-content-between py-2">
+                <span class="text-muted">Unpaid Invoices</span>
+                <span class="fw-bold text-danger">@ViewBag.UnpaidInvoices</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Orders -->
+<div class="card border-0 shadow-sm mt-4">
+    <div class="card-header bg-white fw-bold">
+        <i class="fas fa-shopping-cart me-2 text-primary"></i>Recent Orders
+    </div>
+    <div class="card-body p-0">
+        <table class="table table-hover mb-0">
+            <thead class="table-light">
+                <tr>
+                    <th>Order No</th>
+                    <th>Customer</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (ViewBag.RecentOrders != null)
+                {
+                    @foreach (var order in ViewBag.RecentOrders)
+                    {
+                        <tr>
+                            <td>@order.OrderNumber</td>
+                            <td>@order.Customer?.CustomerName</td>
+                            <td>@order.OrderDate.ToString("dd MMM yyyy")</td>
+                            <td>₹@String.Format("{0:N2}", order.TotalAmount)</td>
+                            <td>
+                                <span class="badge @(order.Status == "Pending" ? "bg-warning text-dark" : "bg-success")">
+                                    @order.Status
+                                </span>
+                            </td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const ctx = document.getElementById('salesChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [@Html.Raw(ViewBag.ChartLabels ?? "")],
+                datasets: [{
+                    label: 'Sales (₹)',
+                    data: [@Html.Raw(ViewBag.ChartData ?? "0")],
+                    borderColor: '#1565c0',
+                    backgroundColor: 'rgba(21,101,192,0.1)',
+                    borderWidth: 2,
+                    fill: true,
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    y: { beginAtZero: true,
+                         ticks: { callback: v => '₹' + v.toLocaleString() }}
+                }
+            }
+        });
+    </script>
+}
