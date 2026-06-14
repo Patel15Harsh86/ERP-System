@@ -135,5 +135,25 @@ namespace ERP.Web.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> StockHistory(int? id)
+        {
+            ViewData["Title"] = "Stock History";
+            var movements = _context.StockMovements
+                .Include(m => m.Product)
+                .AsQueryable();
+
+            if (id.HasValue)
+                movements = movements.Where(m => m.ProductId == id.Value);
+
+            ViewBag.Products = await _context.Products.ToListAsync();
+            ViewBag.SelectedProduct = id;
+
+            var result = await movements
+                .OrderByDescending(m => m.MovementDate)
+                .ToListAsync();
+
+            return View(result);
+        }
     }
 }
