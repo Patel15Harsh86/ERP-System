@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Stock Out";
+    var product = ViewBag.Product;
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Stock Out</h4>
+        <p class="text-muted mb-0">Issue stock for @product.ProductName</p>
+    </div>
+    <a asp-controller="Products" asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to Products
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm">
+    <div class="card-body p-4">
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">
+                <i class="fas fa-exclamation-circle me-2"></i>@ViewBag.Error
+            </div>
+        }
+
+        <div class="alert alert-warning mb-4">
+            <i class="fas fa-info-circle me-2"></i>
+            <strong>@product.ProductCode — @product.ProductName</strong>
+            | Current Stock: <strong>@product.CurrentStock @product.Unit</strong>
+        </div>
+
+        <form method="post" action="/Products/StockOut">
+            <input type="hidden" name="productId" value="@product.Id" />
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-500">Quantity to Issue</label>
+                    <input type="number" name="quantity" class="form-control"
+                           placeholder="Enter quantity" min="1"
+                           max="@product.CurrentStock" required />
+                    <small class="text-muted">Max: @product.CurrentStock @product.Unit</small>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-500">Reference</label>
+                    <input type="text" name="reference" class="form-control"
+                           placeholder="e.g. SO-001, Issue Slip No." required />
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-500">Notes</label>
+                    <textarea name="notes" class="form-control" rows="2"
+                              placeholder="Optional notes"></textarea>
+                </div>
+                <div class="col-12 mt-2">
+                    <button type="submit" class="btn btn-danger px-4">
+                        <i class="fas fa-minus me-2"></i>Issue Stock
+                    </button>
+                    <a asp-controller="Products" asp-action="Index"
+                       class="btn btn-outline-secondary ms-2">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -71,6 +71,46 @@ namespace ERP.Web.Controllers
             return RedirectToAction("Index");
         }
 
+        public async Task<IActionResult> StockOut(int id)
+        {
+            ViewData["Title"] = "Stock Out";
+            var product = await _context.Products.FindAsync(id);
+            if (product == null) return NotFound();
+            ViewBag.Product = product;
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> StockOut(int productId, int quantity,
+            string reference, string? notes)
+        {
+            var product = await _context.Products.FindAsync(productId);
+            if (product == null) return NotFound();
+
+            if (product.CurrentStock < quantity)
+            {
+                ViewBag.Product = product;
+                ViewBag.Error = $"Insufficient stock! Available: {product.CurrentStock}";
+                return View();
+            }
+
+            product.CurrentStock -= quantity;
+            await _context.SaveChangesAsync();
+
+            _context.StockMovements.Add(new StockMovement
+            {
+                ProductId = productId,
+                MovementType = "OUT",
+                Quantity = quantity,
+                Reference = reference,
+                Notes = notes,
+                MovementDate = DateTime.UtcNow,
+                CreatedBy = User.Identity?.Name ?? "System"
+            });
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
         public async Task<IActionResult> Edit(int id)
         {
             ViewData["Title"] = "Edit Product";

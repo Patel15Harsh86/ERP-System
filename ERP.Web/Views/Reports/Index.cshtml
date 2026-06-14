@@ -1,0 +1,63 @@
+﻿@{
+    ViewData["Title"] = "Reports";
+}
+
+<div class="mb-4">
+    <h4 class="fw-bold mb-1">Reports</h4>
+    <p class="text-muted mb-0">Export data to Excel</p>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 text-center">
+            <div class="text-primary mb-3">
+                <i class="fas fa-users fa-3x"></i>
+            </div>
+            <h5 class="fw-bold">Employee Report</h5>
+            <p class="text-muted small">All employees with department and designation</p>
+            <a href="/Reports/ExportEmployees"
+               class="btn btn-primary mt-2">
+                <i class="fas fa-file-excel me-2"></i>Export Excel
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 text-center">
+            <div class="text-success mb-3">
+                <i class="fas fa-boxes fa-3x"></i>
+            </div>
+            <h5 class="fw-bold">Products Report</h5>
+            <p class="text-muted small">All products with stock and valuation</p>
+            <a href="/Reports/ExportProducts"
+               class="btn btn-success mt-2">
+                <i class="fas fa-file-excel me-2"></i>Export Excel
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 text-center">
+            <div class="text-warning mb-3">
+                <i class="fas fa-shopping-cart fa-3x"></i>
+            </div>
+            <h5 class="fw-bold">Sales Report</h5>
+            <p class="text-muted small">All sales orders with totals and status</p>
+            <a href="/Reports/ExportSales"
+               class="btn btn-warning mt-2">
+                <i class="fas fa-file-excel me-2"></i>Export Excel
+            </a>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card border-0 shadow-sm p-4 text-center">
+            <div class="text-danger mb-3">
+                <i class="fas fa-money-check-alt fa-3x"></i>
+            </div>
+            <h5 class="fw-bold">Payroll Report</h5>
+            <p class="text-muted small">All payroll runs with salary details</p>
+            <a href="/Reports/ExportPayroll"
+               class="btn btn-danger mt-2">
+                <i class="fas fa-file-excel me-2"></i>Export Excel
+            </a>
+        </div>
+    </div>
+</div>

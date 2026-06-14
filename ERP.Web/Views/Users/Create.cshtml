@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Add User";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h4 class="fw-bold mb-1">Add User</h4>
+        <p class="text-muted mb-0">Create a new system user</p>
+    </div>
+    <a asp-controller="Users" asp-action="Index" class="btn btn-outline-secondary">
+        <i class="fas fa-arrow-left me-2"></i>Back to List
+    </a>
+</div>
+
+<div class="card border-0 shadow-sm" style="max-width:600px">
+    <div class="card-body p-4">
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger">@ViewBag.Error</div>
+        }
+        <form method="post" action="/Users/Create">
+            <div class="mb-3">
+                <label class="form-label fw-500">Full Name</label>
+                <input type="text" name="fullName" class="form-control"
+                       placeholder="Enter full name" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-500">Email</label>
+                <input type="email" name="email" class="form-control"
+                       placeholder="Enter email address" required />
+            </div>
+            <div class="mb-3">
+                <label class="form-label fw-500">Password</label>
+                <input type="password" name="password" class="form-control"
+                       placeholder="Min 6 characters, 1 digit" required />
+            </div>
+            <div class="mb-4">
+                <label class="form-label fw-500">Role</label>
+                <select name="role" class="form-select" required>
+                    <option value="">-- Select Role --</option>
+                    @foreach (var role in ViewBag.Roles)
+                    {
+                        <option value="@role.Name">@role.Name</option>
+                    }
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary w-100">
+                <i class="fas fa-save me-2"></i>Create User
+            </button>
+        </form>
+    </div>
+</div>
