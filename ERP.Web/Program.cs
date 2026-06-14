@@ -34,8 +34,11 @@ builder.Services.ConfigureApplicationCookie(options =>
 // Repositories & Services
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
-builder.Services.AddControllersWithViews();
-
+builder.Services.AddScoped<ERP.Web.Filters.NotificationFilter>();
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.AddService<ERP.Web.Filters.NotificationFilter>();
+});
 var app = builder.Build();
 
 if (!app.Environment.IsDevelopment())

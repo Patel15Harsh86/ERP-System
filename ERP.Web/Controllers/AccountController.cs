@@ -49,7 +49,7 @@ namespace ERP.Web.Controllers
                 if (result.Succeeded)
                     return RedirectToAction("Index", "Dashboard");
 
-                ViewBag.Error = "Invalid password. Result: " + result.ToString();
+                ViewBag.Error = "Invalid password";
                 return View();
             }
             catch (Exception ex)
@@ -63,6 +63,12 @@ namespace ERP.Web.Controllers
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Login");
+        }
+
+        public IActionResult AccessDenied()
+        {
+            ViewData["Title"] = "Access Denied";
+            return View();
         }
     }
 }

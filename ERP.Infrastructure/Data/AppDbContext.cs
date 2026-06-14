@@ -24,6 +24,7 @@ namespace ERP.Infrastructure.Data
         public DbSet<PayrollRun> PayrollRuns { get; set; }
         public DbSet<PurchaseOrder> PurchaseOrders { get; set; }
         public DbSet<PurchaseOrderItem> PurchaseOrderItems { get; set; }
+        public DbSet<AuditLog> AuditLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
