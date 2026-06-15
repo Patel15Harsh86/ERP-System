@@ -133,5 +133,23 @@ namespace ERP.Web.Controllers
             if (invoice == null) return NotFound();
             return View(invoice);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> RecordPayment(int invoiceId, decimal amount)
+        {
+            var invoice = await _context.Invoices.FindAsync(invoiceId);
+            if (invoice == null) return NotFound();
+
+            invoice.PaidAmount += amount;
+
+            if (invoice.PaidAmount >= invoice.Amount)
+                invoice.Status = "Paid";
+            else if (invoice.PaidAmount > 0)
+                invoice.Status = "PartiallyPaid";
+
+            invoice.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Invoices");
+        }
     }
 }
