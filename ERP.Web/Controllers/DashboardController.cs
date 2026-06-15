@@ -19,13 +19,18 @@ namespace ERP.Web.Controllers
         {
             ViewData["Title"] = "Dashboard";
 
-            // Real data from database
+            // KPI Data
             ViewBag.TotalEmployees = await _context.Employees
                 .Where(e => !e.IsDeleted).CountAsync();
             ViewBag.TotalProducts = await _context.Products
                 .Where(p => !p.IsDeleted).CountAsync();
             ViewBag.LowStockProducts = await _context.Products
-                .Where(p => !p.IsDeleted && p.CurrentStock <= p.ReorderLevel).CountAsync();
+                .Where(p => !p.IsDeleted && p.CurrentStock <= p.ReorderLevel
+                    && p.CurrentStock > 0).CountAsync();
+            ViewBag.OutOfStockProducts = await _context.Products
+                .Where(p => !p.IsDeleted && p.CurrentStock == 0).CountAsync();
+            ViewBag.InStockProducts = await _context.Products
+                .Where(p => !p.IsDeleted && p.CurrentStock > p.ReorderLevel).CountAsync();
             ViewBag.TotalVendors = await _context.Vendors
                 .Where(v => !v.IsDeleted).CountAsync();
             ViewBag.TotalCustomers = await _context.Customers
@@ -36,13 +41,17 @@ namespace ERP.Web.Controllers
                 .SumAsync(i => i.Amount);
             ViewBag.UnpaidInvoices = await _context.Invoices
                 .Where(i => i.Status == "Unpaid").CountAsync();
+            ViewBag.PaidInvoices = await _context.Invoices
+                .Where(i => i.Status == "Paid").CountAsync();
+            ViewBag.PartialInvoices = await _context.Invoices
+                .Where(i => i.Status == "PartiallyPaid").CountAsync();
             ViewBag.StockValue = await _context.Products
                 .Where(p => !p.IsDeleted)
                 .SumAsync(p => p.CurrentStock * p.CostPrice);
             ViewBag.TotalPayroll = await _context.PayrollRuns
                 .SumAsync(p => p.NetSalary);
 
-            // Monthly sales for chart
+            // Monthly Sales Chart
             var monthlySales = await _context.Invoices
                 .GroupBy(i => new { i.InvoiceDate.Year, i.InvoiceDate.Month })
                 .Select(g => new {
@@ -59,7 +68,7 @@ namespace ERP.Web.Controllers
             ViewBag.ChartData = string.Join(",",
                 monthlySales.Select(m => m.Total));
 
-            // Recent orders
+            // Recent Orders
             ViewBag.RecentOrders = await _context.SalesOrders
                 .Include(o => o.Customer)
                 .OrderByDescending(o => o.CreatedAt)

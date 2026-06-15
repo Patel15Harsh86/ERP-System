@@ -117,47 +117,48 @@
     </div>
 </div>
 
-<!-- Charts & Recent Orders -->
-<div class="row g-4">
+<!-- Charts Row -->
+<div class="row g-4 mb-4">
     <div class="col-md-8">
         <div class="card border-0 shadow-sm p-4">
-            <h6 class="fw-bold mb-3">Monthly Sales</h6>
+            <h6 class="fw-bold mb-3">
+                <i class="fas fa-chart-line me-2 text-primary"></i>Monthly Sales
+            </h6>
             <canvas id="salesChart" height="100"></canvas>
         </div>
     </div>
     <div class="col-md-4">
         <div class="card border-0 shadow-sm p-4">
-            <h6 class="fw-bold mb-3">Quick Stats</h6>
-            <div class="d-flex justify-content-between py-2 border-bottom">
-                <span class="text-muted">Employees</span>
-                <span class="fw-bold">@ViewBag.TotalEmployees</span>
-            </div>
-            <div class="d-flex justify-content-between py-2 border-bottom">
-                <span class="text-muted">Products</span>
-                <span class="fw-bold">@ViewBag.TotalProducts</span>
-            </div>
-            <div class="d-flex justify-content-between py-2 border-bottom">
-                <span class="text-muted">Vendors</span>
-                <span class="fw-bold">@ViewBag.TotalVendors</span>
-            </div>
-            <div class="d-flex justify-content-between py-2 border-bottom">
-                <span class="text-muted">Customers</span>
-                <span class="fw-bold">@ViewBag.TotalCustomers</span>
-            </div>
-            <div class="d-flex justify-content-between py-2 border-bottom">
-                <span class="text-muted">Pending Orders</span>
-                <span class="fw-bold text-warning">@ViewBag.PendingOrders</span>
-            </div>
-            <div class="d-flex justify-content-between py-2">
-                <span class="text-muted">Unpaid Invoices</span>
-                <span class="fw-bold text-danger">@ViewBag.UnpaidInvoices</span>
-            </div>
+            <h6 class="fw-bold mb-3">
+                <i class="fas fa-chart-pie me-2 text-success"></i>Invoice Status
+            </h6>
+            <canvas id="invoiceChart" height="200"></canvas>
+        </div>
+    </div>
+</div>
+
+<!-- Second Charts Row -->
+<div class="row g-4 mb-4">
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h6 class="fw-bold mb-3">
+                <i class="fas fa-chart-bar me-2 text-warning"></i>HR Overview
+            </h6>
+            <canvas id="hrChart" height="150"></canvas>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm p-4">
+            <h6 class="fw-bold mb-3">
+                <i class="fas fa-chart-pie me-2 text-info"></i>Inventory Status
+            </h6>
+            <canvas id="inventoryChart" height="150"></canvas>
         </div>
     </div>
 </div>
 
 <!-- Recent Orders -->
-<div class="card border-0 shadow-sm mt-4">
+<div class="card border-0 shadow-sm">
     <div class="card-header bg-white fw-bold">
         <i class="fas fa-shopping-cart me-2 text-primary"></i>Recent Orders
     </div>
@@ -198,11 +199,11 @@
 @section Scripts {
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        const ctx = document.getElementById('salesChart').getContext('2d');
-        new Chart(ctx, {
+        // Monthly Sales Line Chart
+        new Chart(document.getElementById('salesChart'), {
             type: 'line',
             data: {
-                labels: [@Html.Raw(ViewBag.ChartLabels ?? "")],
+                labels: [@Html.Raw(ViewBag.ChartLabels ?? "'No Data'")],
                 datasets: [{
                     label: 'Sales (₹)',
                     data: [@Html.Raw(ViewBag.ChartData ?? "0")],
@@ -210,16 +211,89 @@
                     backgroundColor: 'rgba(21,101,192,0.1)',
                     borderWidth: 2,
                     fill: true,
-                    tension: 0.4
+                    tension: 0.4,
+                    pointBackgroundColor: '#1565c0',
+                    pointRadius: 5
                 }]
             },
             options: {
                 responsive: true,
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { beginAtZero: true,
-                         ticks: { callback: v => '₹' + v.toLocaleString() }}
+                    y: {
+                        beginAtZero: true,
+                        ticks: { callback: v => '₹' + v.toLocaleString() }
+                    }
                 }
+            }
+        });
+
+        // Invoice Status Pie Chart
+        new Chart(document.getElementById('invoiceChart'), {
+            type: 'doughnut',
+            data: {
+                labels: ['Paid', 'Unpaid', 'Partially Paid'],
+                datasets: [{
+                    data: [
+                        @ViewBag.PaidInvoices,
+                        @ViewBag.UnpaidInvoices,
+                        @ViewBag.PartialInvoices
+                    ],
+                    backgroundColor: ['#1D9E75', '#dc3545', '#ffc107'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'bottom' }
+                }
+            }
+        });
+
+        // HR Overview Bar Chart
+        new Chart(document.getElementById('hrChart'), {
+            type: 'bar',
+            data: {
+                labels: ['Employees', 'Vendors', 'Customers'],
+                datasets: [{
+                    label: 'Count',
+                    data: [
+                        @ViewBag.TotalEmployees,
+                        @ViewBag.TotalVendors,
+                        @ViewBag.TotalCustomers
+                    ],
+                    backgroundColor: ['#1565c0', '#0288d1', '#1D9E75'],
+                    borderRadius: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+
+        // Inventory Status Pie Chart
+        new Chart(document.getElementById('inventoryChart'), {
+            type: 'pie',
+            data: {
+                labels: ['In Stock', 'Low Stock', 'Out of Stock'],
+                datasets: [{
+                    data: [
+                        @ViewBag.InStockProducts,
+                        @ViewBag.LowStockProducts,
+                        @ViewBag.OutOfStockProducts
+                    ],
+                    backgroundColor: ['#1D9E75', '#ffc107', '#dc3545'],
+                    borderWidth: 2,
+                    borderColor: '#fff'
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { position: 'bottom' } }
             }
         });
     </script>
